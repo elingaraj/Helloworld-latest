@@ -1,0 +1,21 @@
+pipeline {
+    agent {label "Projecta"}
+
+    stages {
+        stage('First step') {
+            steps {
+                git 'https://github.com/elingaraj/Helloworld-latest.git'
+            }
+        }
+        stage('Second step') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Third step') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: '40924eae-bf94-4c29-8c61-df85b6631212', path: '', url: 'http://184.73.69.45:8080/')], contextPath: null, war: '**/*.war'
+            }
+        }        
+    }
+}
